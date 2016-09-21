@@ -1,0 +1,12 @@
+<phpunit bootstrap="tests/bootstrap.php"
+	colors="true"
+    verbose="false"
+    convertNoticesToExceptions="false"
+    convertWarningsToExceptions="false"
+    >
+	<testsuites>
+	    <testsuite name="total">
+	      <directory>tests</directory>
+	    </testsuite>
+  	</testsuites>
+</phpunit>

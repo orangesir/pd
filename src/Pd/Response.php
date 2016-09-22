@@ -9,14 +9,14 @@ class Response {
 	private $type;
 	private $data;
 	private $viewFile;
-	private $view;
+	private $viewClass;
 
-	public function setView(View $view=null) {
-		$this->view = $view;
+	public function setViewClass($viewClass) {
+		$this->viewClass = $viewClass;
 	}
 
 	public function getView() {
-		return $this->view ?: new View($this->viewFile);
+		return $this->viewClass ? new $this->viewClass($this->viewFile): new View($this->viewFile);
 	}
 
 	public function setType($type) {

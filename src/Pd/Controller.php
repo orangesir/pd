@@ -39,4 +39,12 @@ abstract class Controller {
 	    return str_replace("/",DIRECTORY_SEPARATOR,$viewFile);
 	}
 
+	protected function _success($data=null) {
+		return array("code"=>1, "data"=>$data);
+	}
+
+	protected function _failure($message, $data=null) {
+		return array("code"=>0, "message"=>$message, "data"=>$data);
+	}
+
 }

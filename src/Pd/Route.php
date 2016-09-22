@@ -1,14 +1,10 @@
 <?php
 namespace Pd;
 
-abstract class Route {
-
-	protected $app;
+class Route {
 
 	protected $request;
 	protected $controller;
-	protected $method;
-
 	protected $controllerClassString;
 	protected $methodString;
 
@@ -16,54 +12,68 @@ abstract class Route {
 		if($this->controller) {
 			return $this->controller;
 		}
-		if(!$this->controllerClassString 
-			|| !class_exists($this->controllerClassString) 
-			|| !is_subclass_of($this->controllerClassString,Controller::class)) {
+		if(!$this->controllerClassString) {
+			throw new Exception\SystemException("please setControllerClassString!");
+		}
+		if(!is_string($this->controllerClassString)) {
+			throw new Exception\SystemException("controllerClassString not a String!");
+		}
+		if(!class_exists($this->controllerClassString)) {
 			throw new Exception\NotActionException("controller is not find");
+		}
+		if(!is_subclass_of($this->controllerClassString,Controller::class)) {
+			throw new Exception\NotActionException($this->controllerClassString." is not a \Pd\Controller!");
 		}
 		$this->controller = new $this->controllerClassString;
 		return $this->controller;
 	}
 
 	public function getMethod() {
-		if($this->method) {
-			return $this->method;
-		}
 		if(!$this->methodString || !is_object($this->controller) || !method_exists($this->controller, $this->methodString)) {
 			throw new Exception\NotActionException("method is not find");
 		}
-		$this->method = $this->methodString;
-		return $this->method;
+		return $this->methodString;
 	}
 
 	public function setControllerClassString($controllerClassString) {
-		if(!$controllerClassString || !is_string($controllerClassString)) {
-			throw new Exception\SystemException("setControllerClassString input controllerClassString is emptyString or not a String");
-		}
 		$this->controllerClassString = $controllerClassString;
 	}
 
 	public function setMethodString($methodString) {
-		if(!$methodString || !is_string($methodString)) {
-			throw new Exception\SystemException("setMethodString input methodString is emptyString or not a String");
-		}
 		$this->methodString = $methodString;
 	}
 
-	public function setApp(App $app) {
-		$this->app = $app;
-		$this->request = $app->getRequest();
+	public function setRequest(Request $request) {
+		$this->request = $request;
 	}
 	
 	public function parse() {
-		if(!$this->app) {
-			throw new Exception\SystemException("please Route:setApp");
-		}
 		$this->controllerRelationMap($this->request);
 	}
 
 	/**
 	 * make the rules for the relationship between request and controllerClassString-methodString
 	 */
-	abstract public function controllerRelationMap(Request $request);
+	public function controllerRelationMap(Request $request) {
+		$uri = $request->uri();
+		if(trim($uri,"/")=="") {
+			$this->setControllerClassString("\\Controller\\Home");
+			$this->setMethodString("index");
+		} else {
+			$exUri = explode("/", trim($uri,"/"));
+
+			$method = $exUri[count($exUri)-1];
+			if(strpos($method, "_")===0) {
+				// 不允许访问_开头的方法
+				throw new \Pd\Exception\NotActionException();
+			}
+			$controllerString = "";
+			for($i=0; $i<count($exUri)-1; $i++) {
+				$itemString = ucfirst($exUri[$i]);
+				$controllerString .= "\\".$itemString;
+			}
+			$this->setControllerClassString("\\Controller".$controllerString);
+			$this->setMethodString($method);
+		}
+	}
 }

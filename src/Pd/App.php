@@ -6,53 +6,52 @@ class App {
 	private $request;
 	private $response;
 	private $route;
-	private $view;
 	private $viewPath;
 	private $appDir;
+	private $viewClass;
 
 	public function handle() {
 
 		$this->getRoute()->parse();
 
-		$this->response = $this->getResponse();
-
 		$contoller =  $this->getRoute()->getController();
-		$contoller->_setResponse($this->response);
-		$contoller->_setRequest($this->request);
+		$contoller->_setResponse($this->getResponse());
+		$contoller->_setRequest($this->getRequest());
 
 		$method = $this->getRoute()->getMethod();
 
 		$data = call_user_func(array($contoller, $method));
-		$data = is_array($data) ? $data:array();
 
-		$this->response->setType($contoller->_getResponseTypeMap($method));
-		$this->response->setData($data);
-		$this->response->setView($this->view);
-		$this->response->setViewFile($this->getViewPath().DIRECTORY_SEPARATOR.$contoller->_getView($method));
-		return $this->response;
+		$this->getResponse()->setType($contoller->_getResponseTypeMap($method));
+		$this->getResponse()->setData($data);
+		$this->getResponse()->setViewClass($this->getViewClass());
+		$this->getResponse()->setViewFile($this->getViewPath().DIRECTORY_SEPARATOR.$contoller->_getView($method));
+		$this->getResponse()->send();
+	}
+
+	public function getViewClass() {
+		return $this->viewClass;
+	}
+
+	public function setViewClass($viewClass) {
+		$this->viewClass = $viewClass;
 	}
 
 	public function getRoute() {
 		if(!$this->route) {
-			throw new Exception\SystemException("plase App:setRoute");
+			$this->route = new Route();
 		}
 		return $this->route;
 	}
 
 	public function setRoute(Route $route) {
-		if(!$route) {
-			throw new Exception\SystemException("App:setRoute input route must a object instanceof \Pd\Route");
-		}
-		$route->setApp($this);
 		$this->route = $route;
 		return $this;
 	}
 
 	public function setResponse(Response $response) {
-		if(!$response) {
-			throw new Exception\SystemException("App::setResponse input response must a object  instanceof \Pd\Response");
-		}
 		$this->response = $response;
+		return $this;
 	}
 
 	public function getResponse() {
@@ -62,23 +61,16 @@ class App {
 		return $this->response;
 	}
 
-	public function getRequest() {
-		if(!$this->request) {
-			$this->request = self::currentRequest();
-		}
-		return $this->request;
-	}
-
 	public function setRequest(Request $request) {
-		if(!$request) {
-			throw new Exception\SystemException("App::setRequest input reqeust must a object  instanceof \Pd\Request");
-		}
 		$this->request = $request;
 		return $this;
 	}
 
-	public function setView(View $view) {
-		$this->view = $view;
+	public function getRequest() {
+		if(!$this->request) {
+			$this->request = new Request();
+		}
+		return $this->request;
 	}
 
 	public function setViewPath($viewPath) {
@@ -98,10 +90,6 @@ class App {
 			throw new Exception\SystemException("please App::setAppDir");
 		}
 		return $this->appDir;
-	}
-
-	public static function currentRequest() {
-		return new Request();
 	}
 
 }

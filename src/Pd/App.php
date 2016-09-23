@@ -21,6 +21,8 @@ class App {
 	 */
 	public function run() {
 
+		$this->hasAppDir();
+
 		$this->getRoute()->setRequest($this->getRequest());
 		$this->getRoute()->parse();
 
@@ -97,10 +99,13 @@ class App {
 	}
 
 	public function getAppDir() {
+		return $this->appDir;
+	}
+
+	private function hasAppDir() {
 		if(!$this->appDir) {
 			throw new Exception\SystemException("please App::setAppDir");
 		}
-		return $this->appDir;
 	}
 
 }

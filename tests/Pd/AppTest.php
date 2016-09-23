@@ -12,9 +12,8 @@ class AppTest extends TestCase {
 		$app = new App();
 		$app->setRoute($route);
 		$app->setViewPath(__DIR__."/res");
-		$response = $app->handle();
-		$testInfo = $response->send();
-		$this->assertEquals($testInfo, 5);
+		$response = $app->run();
+		$this->assertEquals($response->__toString(), "5testView");
 
 		unset($_SERVER["REQUEST_URI"]);
 	}
@@ -26,13 +25,9 @@ class AppTest extends TestCase {
 		$app = new App();
 		$app->setRoute($route);
 		$app->setViewPath(__DIR__."/res");
-		$response = $app->handle();
-		ob_start();
-		$response->send();
-		$testInfo = ob_get_contents();
-		ob_end_clean();
+		$response = $app->run();
 
-		$this->assertEquals($testInfo, json_encode(array("msg"=>"ok"), true));
+		$this->assertEquals($response->__toString(), json_encode(array("msg"=>"ok"), true));
 
 		unset($_SERVER["REQUEST_URI"]);
 	}

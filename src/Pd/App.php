@@ -10,8 +10,18 @@ class App {
 	private $appDir;
 	private $viewClass;
 
-	public function handle() {
+	/**
+	 * before run please setAppDir and Set custom components
+	 * components:
+	 *    Route: object must extends \Pd\Route
+	 *    ViewClass: class name String must extends \Pd\View
+	 *    ViewPath: view dir String
+	 *    Request: object must extends \Pd\Request
+	 *    Response: object must extends \Pd\Response
+	 */
+	public function run() {
 
+		$this->getRoute()->setRequest($this->getRequest());
 		$this->getRoute()->parse();
 
 		$contoller =  $this->getRoute()->getController();
@@ -26,7 +36,8 @@ class App {
 		$this->getResponse()->setData($data);
 		$this->getResponse()->setViewClass($this->getViewClass());
 		$this->getResponse()->setViewFile($this->getViewPath().DIRECTORY_SEPARATOR.$contoller->_getView($method));
-		$this->getResponse()->send();
+		$this->getResponse()->make();
+		return $this->getResponse();
 	}
 
 	public function getViewClass() {

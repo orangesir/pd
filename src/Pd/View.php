@@ -23,6 +23,6 @@ class View {
 			throw new NotViewFileException("not find view file:".$this->viewFile);
 		}
 		extract($data, EXTR_SKIP);
-		return include $this->viewFile;
+		include $this->viewFile;
 	}
 }

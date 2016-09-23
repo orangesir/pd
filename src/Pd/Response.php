@@ -10,6 +10,7 @@ class Response {
 	private $data;
 	private $viewFile;
 	private $viewClass;
+	private $bodyString = "";
 
 	public function setViewClass($viewClass) {
 		$this->viewClass = $viewClass;
@@ -31,12 +32,17 @@ class Response {
 		$this->viewFile = $viewFile;
 	}
 
-	public function send() {
-		$sendDataString = "";
+	public function make() {
+		ob_start();
 		if($this->type===self::TYPE_JSON) {
 			echo json_encode($this->data, true);
 		} else {
-			return $this->getView()->render($this->data);
+			$this->getView()->render($this->data);
 		}
+		$this->bodyString = ob_get_clean();
+	}
+
+	public function __toString() {
+		return $this->bodyString;
 	}
 }

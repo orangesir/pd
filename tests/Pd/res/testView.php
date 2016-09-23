@@ -1,2 +1,4 @@
 <?php
-return $testInfo;
+echo $testInfo;
+?>
+testView

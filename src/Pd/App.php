@@ -32,10 +32,10 @@ class App {
 
 		$data = call_user_func(array($contoller, $method));
 
-		$this->getResponse()->setType($contoller->_getResponseTypeMap($method));
+		$this->getResponse()->setType($contoller->_getResponseType($method));
 		$this->getResponse()->setData($data);
 		$this->getResponse()->setViewClass($this->getViewClass());
-		$this->getResponse()->setViewFile($this->getViewPath().DIRECTORY_SEPARATOR.$contoller->_getView($method));
+		$this->getResponse()->setViewFile($this->getViewPath().DIRECTORY_SEPARATOR.$contoller->_getViewFile($method));
 		$this->getResponse()->make();
 		return $this->getResponse();
 	}

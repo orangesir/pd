@@ -11,7 +11,7 @@ class Controller extends BaseController {
 		"testjson" => Response::TYPE_JSON 
 		);
 	
-	protected $_viewMap = array(
+	protected $_viewFileMap = array(
 		"testview" => "testView.php"
 		);
 

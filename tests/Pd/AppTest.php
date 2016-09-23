@@ -11,6 +11,7 @@ class AppTest extends TestCase {
 		$route = new \TestRes\Route();
 		$app = new App();
 		$app->setRoute($route);
+		$app->setAppDir(__DIR__."/res");
 		$app->setViewPath(__DIR__."/res");
 		$response = $app->run();
 		$this->assertEquals($response->__toString(), "5testView");
@@ -24,6 +25,7 @@ class AppTest extends TestCase {
 		$route = new \TestRes\Route();
 		$app = new App();
 		$app->setRoute($route);
+		$app->setAppDir(__DIR__."/res");
 		$app->setViewPath(__DIR__."/res");
 		$response = $app->run();
 

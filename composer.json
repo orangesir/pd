@@ -1,15 +1,17 @@
 {
+    "name": "OrangeSir/Pd",
+    "version": "1.0.0",
     "autoload": {
         "psr-4": {
-        	"Pd\\": "src/Pd/",
-        	"TestRes\\": "tests/Pd/res/",
+            "Pd\\": "src/Pd/",
+            "TestRes\\": "tests/Pd/res/",
             "tests\\": "tests/Pd/"
         }
     },
     "repositories": {
-	    "packagist": {
-	        "type": "composer",
-	        "url": "https://packagist.phpcomposer.com"
-	    }
-	}
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
+        }
+    }
 }

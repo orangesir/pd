@@ -1,6 +1,8 @@
 {
     "name": "OrangeSir/Pd",
-    "version": "1.0.0",
+    "homepage": "https://github.com/OrangeSir/Pd",
+    "license": "MIT",
+    "type": "library",
     "autoload": {
         "psr-4": {
             "Pd\\": "src/Pd/",

@@ -1,12 +1,22 @@
 <phpunit bootstrap="tests/bootstrap.php"
-	colors="true"
+    colors="true"
     verbose="false"
     convertNoticesToExceptions="false"
     convertWarningsToExceptions="false"
     >
-	<testsuites>
-	    <testsuite name="total">
-	      <directory>tests</directory>
-	    </testsuite>
-  	</testsuites>
+    <logging>
+        <log type="coverage-html" target="./coverage" lowUpperBound="35" highLowerBound="70"/>
+    </logging>
+    <testsuites>
+        <testsuite name="total">
+          <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <filter>
+        <blacklist>
+        </blacklist>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">src/</directory>
+        </whitelist>
+    </filter>
 </phpunit>

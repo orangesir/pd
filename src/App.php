@@ -33,6 +33,9 @@ class App {
 		$method = $this->getRoute()->getMethod();
 
 		$data = call_user_func(array($contoller, $method));
+        if(!$data) {
+            $data = array();
+        }
 
 		$this->getResponse()->setType($contoller->_getResponseType($method));
 		$this->getResponse()->setData($data);

@@ -19,7 +19,7 @@ class Route {
 			throw new Exception\SystemException("controllerClassString not a String!");
 		}
 		if(!class_exists($this->controllerClassString)) {
-			throw new Exception\NotActionException($this->controllerClassString.":controller is not find");
+			throw new Exception\NotActionException($this->controllerClassString.":controller class is not find");
 		}
 		if(!is_subclass_of($this->controllerClassString,Controller::class)) {
 			throw new Exception\NotActionException($this->controllerClassString." is not a \Pd\Controller!");

@@ -5,6 +5,7 @@ class Response {
 
 	const TYPE_VIEW = 1;
 	const TYPE_JSON = 2;
+	const TYPE_STRING = 3;
 
 	private $type;
 	private $data;
@@ -24,7 +25,7 @@ class Response {
 		$this->type = $type;
 	}
 
-	public function setData(array $data) {
+	public function setData($data) {
 		$this->data = $data;
 	}
 
@@ -33,13 +34,18 @@ class Response {
 	}
 
 	public function make() {
-		ob_start();
 		if($this->type===self::TYPE_JSON) {
-			echo json_encode($this->data, true);
+			$this->bodyString = json_encode($this->data, true);
+		} else if($this->type===self::TYPE_STRING){
+			if(!is_string($this->data)) {
+				throw new \Pd\Exception\SystemException("string response data not a string!");
+			}
+			$this->bodyString = $this->data;
 		} else {
+			ob_start();
 			$this->getView()->render($this->data);
+			$this->bodyString = ob_get_clean();
 		}
-		$this->bodyString = ob_get_clean();
 	}
 
 	public function __toString() {

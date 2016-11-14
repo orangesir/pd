@@ -32,12 +32,13 @@ class App {
 
 		$method = $this->getRoute()->getMethod();
 
+		$this->getResponse()->setType($contoller->_getResponseType($method));
+
 		$data = call_user_func(array($contoller, $method));
         if(!$data) {
             $data = array();
         }
 
-		$this->getResponse()->setType($contoller->_getResponseType($method));
 		$this->getResponse()->setData($data);
 		$this->getResponse()->setViewClass($this->getViewClass());
 		$this->getResponse()->setViewFile($this->getViewPath().DIRECTORY_SEPARATOR.$contoller->_getViewFile($method));

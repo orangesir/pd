@@ -31,7 +31,13 @@ class Request {
 	}
 
 	public function xssFilter($value) {
-		return htmlspecialchars($value, ENT_QUOTES);
+		if(!is_array($value)) {
+			return htmlspecialchars($value, ENT_QUOTES);
+		}
+		foreach ($value as $key => &$item) {
+			$item = htmlspecialchars($item, ENT_QUOTES);
+		}
+		return $value;
 	}
 	
 }

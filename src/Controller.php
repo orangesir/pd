@@ -30,6 +30,7 @@ abstract class Controller {
 	}
 
 	public function _getResponseType($method) {
+		$method = strtolower($method);
 		return isset($this->_responseTypeMap[$method]) ? $this->_responseTypeMap[$method] : Response::TYPE_VIEW;
 	}
 

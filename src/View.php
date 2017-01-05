@@ -10,12 +10,15 @@ class View {
 	
 	public $smarty;
 
-	public function __construct($viewFile) {
+	public function __construct() {
+		$this->smarty = new \Smarty();
+	}
+
+	public function setViewFile($viewFile) {
 		if(!is_string($viewFile)) {
 			throw new NotViewFileException("View::__construct input viewFile is not a filename String");
 		}
 		$this->viewFile = $viewFile;
-		$this->smarty = new \Smarty();
 	}
 
 	public function getViewFile() {

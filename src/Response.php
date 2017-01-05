@@ -11,6 +11,7 @@ class Response {
 	private $data;
 	private $viewFile;
 	private $viewClass;
+	private $view;
 	private $bodyString = "";
 
 	public function setViewClass($viewClass) {
@@ -18,7 +19,11 @@ class Response {
 	}
 
 	public function getView() {
-		return $this->viewClass ? new $this->viewClass($this->viewFile): new View($this->viewFile);
+		if($this->view) {
+			return $this->view;
+		}
+		$this->view = $this->viewClass ? new $this->viewClass(): new View();
+		return $this->view;
 	}
 
 	public function setType($type) {
@@ -34,6 +39,7 @@ class Response {
 	}
 
 	public function make() {
+		$this->getView()->setViewFile($this->viewFile);
 		if($this->type===self::TYPE_JSON) {
 			$this->bodyString = json_encode($this->data, true);
 		} else if($this->type===self::TYPE_STRING){

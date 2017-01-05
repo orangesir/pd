@@ -2,16 +2,20 @@
 namespace Pd;
 
 use \Pd\Exception\NotViewFileException;
+use \Pd\Exception\SystemException;
 
 class View {
 
 	private $viewFile;
+	
+	public $smarty;
 
 	public function __construct($viewFile) {
 		if(!is_string($viewFile)) {
 			throw new NotViewFileException("View::__construct input viewFile is not a filename String");
 		}
 		$this->viewFile = $viewFile;
+		$this->smarty = new \Smarty();
 	}
 
 	public function getViewFile() {
@@ -22,7 +26,12 @@ class View {
 		if(!file_exists($this->viewFile)) {
 			throw new NotViewFileException("not find view file:".$this->viewFile);
 		}
-		extract($data, EXTR_SKIP);
-		include $this->viewFile;
+		
+		foreach ($data as $key => $value) {
+			$this->smarty->assign($key, $value);
+		}
+
+		$this->smarty->display($this->viewFile);
 	}
+
 }

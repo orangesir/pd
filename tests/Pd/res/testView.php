@@ -1,4 +1,1 @@
-<?php
-echo $testInfo;
-?>
-testView
+<p>{$info}<p>

@@ -10,13 +10,15 @@
             "homepage": "https://github.com/OrangeSir"
         }
     ],
-    "repositories": [
-        {
-            "packagist": false
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.phpcomposer.com"
         }
-    ],
+    },
     "require": {
-        "php": ">=5.6.0"
+        "php": ">=5.6.0",
+        "smarty/smarty": "v3.1.31"
     },
     "autoload": {
         "psr-4": {

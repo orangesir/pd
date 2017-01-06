@@ -39,7 +39,7 @@ abstract class Controller {
 		if(isset($this->_viewFileMap[$method])) {
 			return $this->_viewFileMap[$method];
 		} else {
-			return str_replace("\\", DIRECTORY_SEPARATOR,trim(substr(static::class, strpos(static::class, "\\")), "\\")).DIRECTORY_SEPARATOR.$method.".php";
+			return str_replace("\\", DIRECTORY_SEPARATOR,trim(substr(static::class, strpos(static::class, "\\")), "\\")).DIRECTORY_SEPARATOR.$method.".tpl";
 		}
 	}
 

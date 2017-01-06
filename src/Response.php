@@ -31,7 +31,11 @@ class Response {
 	}
 
 	public function setData($data) {
-		$this->data = $data;
+        if($this->data && is_array($this->data)) {
+		    $this->data = array_merge($this->data, $data);
+        } else {
+            $this->data = $data;
+        }
 	}
 
 	public function setViewFile($viewFile) {
@@ -48,6 +52,9 @@ class Response {
 			}
 			$this->bodyString = $this->data;
 		} else {
+            if(!is_array($this->data)) {
+				throw new \Pd\Exception\SystemException("smarty view response data not a array!");
+            }
 			ob_start();
 			$this->getView()->render($this->data);
 			$this->bodyString = ob_get_clean();

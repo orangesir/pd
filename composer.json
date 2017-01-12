@@ -1,13 +1,13 @@
 {
-    "name": "OrangeSir/Pd",
-    "homepage": "https://github.com/OrangeSir/Pd",
+    "name": "orangesir/pd",
+    "homepage": "https://github.com/orangeSir/pd",
     "license": "LGPL-3.0+",
     "type": "library",
     "authors": [
         {
             "name": "OrangeSir",
             "email": "zhangwei0933@126.com",
-            "homepage": "https://github.com/OrangeSir"
+            "homepage": "https://github.com/orangesir"
         }
     ],
     "repositories": {

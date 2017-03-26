@@ -94,7 +94,7 @@ class Route {
 		if($this->getConfigArray()) {
 		    // actionString ===> controllerclass::$method
             foreach ($this->getConfigArray() as $regex => $actionString) {
-                if($regex==$uri || preg_match($regex, $uri)) {
+                if($regex==$uri || @preg_match($regex, $uri)) {
                     $actions = explode("::", trim($actionString));
                     if(count($actions)!=2) {
                         throw new SystemException("route config error:".$regex."=>".$actionString);
